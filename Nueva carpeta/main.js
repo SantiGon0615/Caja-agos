@@ -21,8 +21,7 @@ const niveles = [
             frente: 'Verano texto.jpeg',       
             atras: 'verano texto 2.jpeg', 
             izquierda: 'Verano fondo.jpg', 
-            derecha: 'Verano fondo.jpg', 
-            abajo: 'Verano fondo.jpg' 
+            derecha: 'Verano fondo.jpg'
         } 
     },
     { 
