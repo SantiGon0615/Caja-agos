@@ -189,16 +189,16 @@ manager.onLoad = function () {
     const mouse = new THREE.Vector2();
     let cajaActual = 0;
     let animando = false; 
-// --- NUEVO SISTEMA UNIVERSAL (PC y Celular) ---
+// --- SISTEMA UNIVERSAL CON POINTER EVENTS (PC y Celular) ---
     let ultimoClick = 0;
 
-    window.addEventListener('click', (event) => {
+    window.addEventListener('pointerdown', (event) => {
         if (animando) return; 
 
         const ahora = new Date().getTime();
         const tiempoTranscurrido = ahora - ultimoClick;
 
-        // Si pasan menos de 350 milisegundos entre un toque/clic y el siguiente, es un DOBLE TOQUE / DOBLE CLIC
+        // Si hace doble toque/clic en menos de 350 milisegundos
         if (tiempoTranscurrido < 350 && tiempoTranscurrido > 0) {
             
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
