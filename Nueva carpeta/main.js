@@ -19,7 +19,7 @@ const niveles = [
         caras: { 
             arriba: 'Viejos verano.jpeg',     
             frente: 'Verano texto.jpeg',       
-            atras: 'Verano texto 2.jpeg', 
+            atras: 'verano texto 2.jpeg', 
             izquierda: 'Verano fondo.jpg', 
             derecha: 'Verano fondo.jpg', 
             abajo: 'Verano fondo.jpg' 
