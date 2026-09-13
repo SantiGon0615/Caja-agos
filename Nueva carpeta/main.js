@@ -189,99 +189,104 @@ manager.onLoad = function () {
     const mouse = new THREE.Vector2();
     let cajaActual = 0;
     let animando = false; 
+// --- NUEVO SISTEMA UNIVERSAL (PC y Celular) ---
+    let ultimoClick = 0;
 
-    window.addEventListener('dblclick', (event) => {
+    window.addEventListener('click', (event) => {
         if (animando) return; 
 
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        const ahora = new Date().getTime();
+        const tiempoTranscurrido = ahora - ultimoClick;
 
-        raycaster.setFromCamera(mouse, camera);
-        const intersecciones = raycaster.intersectObjects(scene.children);
+        // Si pasan menos de 350 milisegundos entre un toque/clic y el siguiente, es un DOBLE TOQUE / DOBLE CLIC
+        if (tiempoTranscurrido < 350 && tiempoTranscurrido > 0) {
+            
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        if (intersecciones.length > 0) {
-            const cajaClickeada = intersecciones[0].object;
-            if (cajaClickeada !== cajas[cajaActual]) return;
+            raycaster.setFromCamera(mouse, camera);
+            const intersecciones = raycaster.intersectObjects(scene.children);
 
-            animando = true;
-            const cajaSaliendo = cajas[cajaActual];
+            if (intersecciones.length > 0) {
+                const cajaClickeada = intersecciones[0].object;
+                if (cajaClickeada !== cajas[cajaActual]) return;
 
-            if (cajaActual < cajas.length - 1) {
-                cajaActual++;
-                const cajaEntrando = cajas[cajaActual];
+                animando = true;
+                const cajaSaliendo = cajas[cajaActual];
 
-                cajaEntrando.scale.set(0.1, 0.1, 0.1);
-                cajaEntrando.visible = true;
+                if (cajaActual < cajas.length - 1) {
+                    cajaActual++;
+                    const cajaEntrando = cajas[cajaActual];
 
-                // CAMBIO DE FONDO DE PANTALLA SEGÚN LA ESTACIÓN
-                document.body.style.backgroundImage = `url('${niveles[cajaActual].fondo}')`;
+                    cajaEntrando.scale.set(0.1, 0.1, 0.1);
+                    cajaEntrando.visible = true;
 
-                gsap.to(cajaSaliendo.position, { y: 6, duration: 1.2, ease: "power2.in" });
-                gsap.to(cajaSaliendo.rotation, { 
-                    x: Math.PI / 4, z: Math.PI / 8, duration: 1.2, ease: "power1.inOut" 
-                });
-                
-                cajaSaliendo.material.forEach(mat => {
-                    mat.transparent = true;
-                    gsap.to(mat, { opacity: 0, duration: 1, delay: 0.2 });
-                });
+                    // CAMBIO DE FONDO DE PANTALLA SEGÚN LA ESTACIÓN
+                    document.body.style.backgroundImage = `url('${niveles[cajaActual].fondo}')`;
 
-                // --- AJUSTE DINÁMICO DE ZOOM SEGÚN EL TAMAÑO DE LA CAJA ---
-                const tamActual = niveles[cajaActual].tamaño;
-                const nuevaDistanciaY = tamActual * 1.6; // Distancia proporcional desde arriba
-                
-                controls.minDistance = tamActual * 0.8;
-                controls.maxDistance = tamActual * 3.5;
-
-                camera.position.set(0, nuevaDistanciaY, 0.01);
-                controls.target.set(0, 0, 0);
-                controls.update();
-                // ---------------------------------------------------------
-
-                gsap.to(cajaEntrando.scale, { 
-                    x: 1, y: 1, z: 1, duration: 1.5, ease: "elastic.out(1, 0.5)", delay: 0.3,
-                    onComplete: () => {
-                        cajaSaliendo.visible = false; 
-                        animando = false;
-                    }
-                });
-
-            } else {
-                // REINICIO AL LLEGAR AL FINAL (Vuelve a la caja grande de 'El Año')
-                const tamInicial = niveles[0].tamaño;
-                controls.minDistance = tamInicial * 0.8;
-                controls.maxDistance = tamInicial * 3.5;
-
-                camera.position.set(0, tamInicial * 1.6, 0.01);
-                controls.target.set(0, 0, 0);
-                controls.update();
-
-                // Vuelve al fondo inicial
-                document.body.style.backgroundImage = `url('${niveles[0].fondo}')`;
-
-                gsap.to(cajaSaliendo.position, { y: 4, duration: 1, ease: "power2.in" });
-                gsap.to(cajaSaliendo.rotation, { x: Math.PI/4, duration: 1 });
-
-                cajaSaliendo.material.forEach(mat => {
-                    mat.transparent = true;
-                    gsap.to(mat, { opacity: 0, duration: 0.8 });
-                });
-
-                setTimeout(() => {
-                    cajas.forEach((c, index) => {
-                        c.position.set(0,0,0);
-                        c.rotation.set(0,0,0);
-                        c.scale.set(1, 1, 1);
-                        c.material.forEach(m => { m.opacity = 1; m.transparent = (index !== 0); });
-                        c.visible = (index === 0);
+                    gsap.to(cajaSaliendo.position, { y: 6, duration: 1.2, ease: "power2.in" });
+                    gsap.to(cajaSaliendo.rotation, { 
+                        x: Math.PI / 4, z: Math.PI / 8, duration: 1.2, ease: "power1.inOut" 
                     });
-                    cajaActual = 0;
-                    animando = false;
-                }, 1200);
+                    
+                    cajaSaliendo.material.forEach(mat => {
+                        mat.transparent = true;
+                        gsap.to(mat, { opacity: 0, duration: 1, delay: 0.2 });
+                    });
+
+                    const tamActual = niveles[cajaActual].tamaño;
+                    controls.minDistance = tamActual * 0.8;
+                    controls.maxDistance = tamActual * 3.5;
+
+                    camera.position.set(0, tamActual * 1.6, 0.01);
+                    controls.target.set(0, 0, 0);
+                    controls.update();
+
+                    gsap.to(cajaEntrando.scale, { 
+                        x: 1, y: 1, z: 1, duration: 1.5, ease: "elastic.out(1, 0.5)", delay: 0.3,
+                        onComplete: () => {
+                            cajaSaliendo.visible = false; 
+                            animando = false;
+                        }
+                    });
+
+                } else {
+                    // REINICIO AL LLEGAR AL FINAL
+                    const tamInicial = niveles[0].tamaño;
+                    controls.minDistance = tamInicial * 0.8;
+                    controls.maxDistance = tamInicial * 3.5;
+
+                    camera.position.set(0, tamInicial * 1.6, 0.01);
+                    controls.target.set(0, 0, 0);
+                    controls.update();
+
+                    document.body.style.backgroundImage = `url('${niveles[0].fondo}')`;
+
+                    gsap.to(cajaSaliendo.position, { y: 4, duration: 1, ease: "power2.in" });
+                    gsap.to(cajaSaliendo.rotation, { x: Math.PI/4, duration: 1 });
+
+                    cajaSaliendo.material.forEach(mat => {
+                        mat.transparent = true;
+                        gsap.to(mat, { opacity: 0, duration: 0.8 });
+                    });
+
+                    setTimeout(() => {
+                        cajas.forEach((c, index) => {
+                            c.position.set(0,0,0);
+                            c.rotation.set(0,0,0);
+                            c.scale.set(1, 1, 1);
+                            c.material.forEach(m => { m.opacity = 1; m.transparent = (index !== 0); });
+                            c.visible = (index === 0);
+                        });
+                        cajaActual = 0;
+                        animando = false;
+                    }, 1200);
+                }
             }
         }
+        
+        ultimoClick = ahora;
     });
-
     function animar() {
         requestAnimationFrame(animar);
         controls.update(); 
