@@ -54,7 +54,7 @@ const niveles = [
         caras: { 
             arriba: 'Viejos primavera.jpeg',  
             frente: 'primavera texto.jpeg', 
-            atras: 'primavera.jpg', 
+            atras: 'WhatsApp Image 2026-09-13 at 14.07.57.jpeg', 
             izquierda: 'primavera.jpg', 
             derecha: 'primavera.jpg', 
             abajo: 'primavera.jpg' 
