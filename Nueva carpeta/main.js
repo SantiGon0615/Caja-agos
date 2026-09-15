@@ -7,10 +7,10 @@ const niveles = [
         fondo: 'fondo-inicio.jpg', // <--- Imagen de fondo para esta estación (Poné el nombre de tu archivo)
         caras: {
             arriba: 'Imagen mono grande.jpeg',
-            frente: 'WhatsApp Image 2026-09-12 at 22.08.22.jpeg',
+            frente: 'Frente texto.jpeg',
             izquierda: 'WhatsApp Image 2026-09-12 at 22.08.22.jpeg',
             derecha: 'WhatsApp Image 2026-09-12 at 22.08.22.jpeg',
-            atras: 'WhatsApp Image 2026-09-12 at 22.08.22.jpeg'
+            atras: 'Frente QR.jpeg'
          } 
     },
     { 
@@ -20,8 +20,8 @@ const niveles = [
             arriba: 'Viejos verano.jpeg',     
             frente: 'Verano texto.jpeg',       
             atras: 'verano texto 2.jpeg', 
-            izquierda: 'Verano fondo.jpg', 
-            derecha: 'Verano fondo.jpg'
+            izquierda: 'verano texto 3.jpeg', 
+            derecha: 'verano imagen.jpeg'
         } 
     },
     { 
@@ -31,7 +31,7 @@ const niveles = [
             arriba: 'Viejos otono.jpeg',      
             frente: 'Otono 1.jpeg', 
             atras: 'Otono 2.jpeg', 
-            izquierda: '306696024f8bd0dfaec597b6fcea1221.jpg',
+            izquierda: 'Otono texto 3.jpeg',
             derecha: '306696024f8bd0dfaec597b6fcea1221.jpg', 
             abajo: '306696024f8bd0dfaec597b6fcea1221.jpg'
         }
@@ -43,7 +43,7 @@ const niveles = [
             arriba: 'Viejos invierno.jpeg',   
             frente: 'invierno texto.jpeg', 
             atras: 'invierno texto 2.jpeg', 
-            izquierda: 'Invierno fondo.jpeg', 
+            izquierda: 'Invierno texto 3.jpeg', 
             derecha: 'Invierno fondo.jpeg', 
             abajo: 'Invierno fondo.jpeg' 
         }
@@ -55,7 +55,7 @@ const niveles = [
             arriba: 'Viejos primavera.jpeg',  
             frente: 'primavera texto.jpeg', 
             atras: 'WhatsApp Image 2026-09-13 at 14.07.57.jpeg', 
-            izquierda: 'primavera.jpg', 
+            izquierda: 'Primavera texto 3.jpeg', 
             derecha: 'primavera.jpg', 
             abajo: 'primavera.jpg' 
         }
